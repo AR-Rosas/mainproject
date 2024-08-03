@@ -14,7 +14,7 @@
           <UInput v-model="formState.password" type="password" placeholder="Enter your password" autocomplete="new-password" required />
         </UFormGroup>
 
-        <UButton type="submit" color="primary" class="mt-6 w-full" :loading="loading">
+        <UButton type="submit" color="primary" class="mt-6 w-full" :loading="loading" :disabled="loading">
           {{ loading ? 'Registering...' : 'Sign Up' }}
         </UButton>
       </UForm>
@@ -52,6 +52,10 @@ const handleSignUp = async () => {
     return
   }
 
+  if (loading.value) {
+    return
+  }
+
   loading.value = true
   error.value = ''
 
@@ -67,7 +71,11 @@ const handleSignUp = async () => {
 
     navigateTo('/auth/confirm')
   } catch (e) {
-    error.value = e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.'
+    if (e instanceof Error && e.message.includes('Email rate limit exceeded')) {
+      error.value = 'Too many sign-up attempts. Please try again later.'
+    } else {
+      error.value = e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.'
+    }
     console.error(e)
   } finally {
     loading.value = false

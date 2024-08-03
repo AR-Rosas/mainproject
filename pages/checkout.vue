@@ -1,51 +1,12 @@
-<script setup lang="ts">
-const order = reactive({
-  items: [
-    { name: 'Product 1', price: 19.99, quantity: 2 },
-    { name: 'Product 2', price: 29.99, quantity: 1 },
-  ],
-  subtotal: 69.97,
-  shipping: 5.99,
-  tax: 7.50,
-});
-
-const shippingForm = reactive({
-  firstName: '',
-  lastName: '',
-  address: '',
-  city: '',
-  country: '',
-  postalCode: '',
-});
-
-const paymentForm = reactive({
-  cardNumber: '',
-  expirationDate: '',
-  cvv: '',
-});
-
-const countries = [
-  { name: 'United States', code: 'US' },
-  { name: 'Canada', code: 'CA' },
-  { name: 'United Kingdom', code: 'UK' },
-  // Add more countries as needed
-];
-
-const placeOrder = () => {
-  // Implement order placement logic here
-  console.log('Order placed', { shippingForm, paymentForm, order });
-};
-</script>
-
 <template>
   <UContainer>
     <h1 class="text-2xl font-bold mb-6">Checkout</h1>
-    
+
     <UCard class="mb-6">
       <template #header>
         <h2 class="text-xl font-semibold">Shipping Information</h2>
       </template>
-      
+
       <UForm :state="shippingForm">
         <UFormGroup label="First Name" name="firstName">
           <UInput v-model="shippingForm.firstName" />
@@ -67,18 +28,18 @@ const placeOrder = () => {
         </UFormGroup>
       </UForm>
     </UCard>
-    
+
     <UCard class="mb-6">
       <template #header>
         <h2 class="text-xl font-semibold">Order Summary</h2>
       </template>
-      
+
       <UTable :columns="[
         { key: 'name', label: 'Product' },
         { key: 'quantity', label: 'Quantity' },
         { key: 'price', label: 'Price' },
       ]" :rows="order.items" />
-      
+
       <div class="mt-4">
         <p>Subtotal: ${{ order.subtotal.toFixed(2) }}</p>
         <p>Shipping: ${{ order.shipping.toFixed(2) }}</p>
@@ -86,12 +47,12 @@ const placeOrder = () => {
         <p class="font-bold">Total: ${{ (order.subtotal + order.shipping + order.tax).toFixed(2) }}</p>
       </div>
     </UCard>
-    
+
     <UCard class="mb-6">
       <template #header>
         <h2 class="text-xl font-semibold">Payment Information</h2>
       </template>
-      
+
       <UForm :state="paymentForm">
         <UFormGroup label="Card Number" name="cardNumber">
           <UInput v-model="paymentForm.cardNumber" placeholder="1234 5678 9012 3456" />
@@ -104,7 +65,53 @@ const placeOrder = () => {
         </UFormGroup>
       </UForm>
     </UCard>
-    
+
     <UButton color="primary" @click="placeOrder">Place Order</UButton>
   </UContainer>
 </template>
+
+<script setup lang="ts">
+import { reactive } from 'vue'
+
+// Reactive state for order details
+const order = reactive({
+  items: [
+    { name: 'Product 1', price: 19.99, quantity: 2 },
+    { name: 'Product 2', price: 29.99, quantity: 1 },
+  ],
+  subtotal: 69.97,
+  shipping: 5.99,
+  tax: 7.50,
+})
+
+// Reactive state for shipping form
+const shippingForm = reactive({
+  firstName: '',
+  lastName: '',
+  address: '',
+  city: '',
+  country: '',
+  postalCode: '',
+})
+
+// Reactive state for payment form
+const paymentForm = reactive({
+  cardNumber: '',
+  expirationDate: '',
+  cvv: '',
+})
+
+// List of countries for the country select input
+const countries = [
+  { name: 'United States', code: 'US' },
+  { name: 'Canada', code: 'CA' },
+  { name: 'United Kingdom', code: 'UK' },
+  // Add more countries as needed
+]
+
+// Function to handle order placement
+const placeOrder = () => {
+  // Implement order placement logic here
+  console.log('Order placed', { shippingForm, paymentForm, order })
+}
+</script>
