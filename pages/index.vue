@@ -2,6 +2,9 @@
   <div>
     <Navigation />
     <FPHero />
+    <FPFeatures />
+    <FPFaq />
+    <FPFooter />
   </div>
 </template>
 

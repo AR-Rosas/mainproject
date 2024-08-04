@@ -8,7 +8,7 @@
     </div>
     
     <!-- Bottom container -->
-    <UContainer class="mt-auto py-8">
+    <UContainer class="mt-auto py-2">
       <div class="bg-gray-100 p-6 rounded-lg shadow-md">
         <h1 class="text-2xl font-bold mb-4">Welcome to the Hub</h1>
         <p>Your User ID: {{ userId }}</p>
