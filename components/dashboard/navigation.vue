@@ -31,15 +31,6 @@
             class="px-3 py-2 sm:text-base text-lg"
           />
         </UTooltip>
-        <UTooltip v-else text="Login">
-          <UButton
-            @click="handleLogin"
-            icon="i-solar-login-3-outline"
-            color="blue"
-            variant="ghost"
-            class="px-3 py-2 sm:text-base text-lg"
-          />
-        </UTooltip>
       </nav>
     </div>
   </div>
@@ -48,38 +39,25 @@
 <script setup>
 import { useSupabaseUser, useSupabaseClient } from '#imports'
 import { useRouter } from 'vue-router'
-import { computed } from 'vue'
 
-const headerRef = ref(null);
 const user = useSupabaseUser()
 const router = useRouter()
+const supabase = useSupabaseClient()
 
-const publicItems = [
+const navItems = [
   { path: "/", icon: "i-solar-home-smile-outline", label: "Home" },
-  { path: "/projects", icon: "i-solar-folder-with-files-outline", label: "Projects" },
-  { path: "/articles", icon: "i-solar-document-add-outline", label: "Articles" },
-  { path: "/lab", icon: "i-heroicons-beaker", label: "Lab" },
-  { path: "/whats-in-my-bag", icon: "i-solar-backpack-outline", label: "What's in my bag" },
+  { path: "/profile", icon: "i-solar-user-outline", label: "Profile" },
   { path: "/bookmarks", icon: "i-solar-bookmark-linear", label: "Bookmarks" },
+  { path: "/earnings", icon: "i-solar-dollar-outline", label: "Earnings" },
+  { path: "/settings", icon: "i-solar-settings-outline", label: "Settings" },
 ];
-
-const privateItems = [
-  { path: "/hub", icon: "i-solar-home-smile-outline", label: "Hub" },
-];
-
-const navItems = computed(() => user.value ? [...publicItems, ...privateItems] : publicItems);
 
 const handleLogout = async () => {
-  const supabase = useSupabaseClient()
   try {
     await supabase.auth.signOut()
     router.push('/')
   } catch (error) {
     console.error('Error during logout:', error)
   }
-}
-
-const handleLogin = () => {
-  router.push('/login') // Adjust this path to your login page route
 }
 </script>
